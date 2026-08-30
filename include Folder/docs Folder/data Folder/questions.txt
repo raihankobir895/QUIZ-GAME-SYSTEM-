@@ -1,0 +1,15 @@
+# Quiz Game - Question Bank
+# File Format (one question per line, fields separated by '|'):
+# Question|OptionA|OptionB|OptionC|OptionD|CorrectOption(1=A,2=B,3=C,4=D)
+# Lines starting with '#' and blank lines are ignored.
+
+What is the capital of France?|Berlin|Madrid|Paris|Rome|3
+Which language is primarily used to build this project?|Python|C++|Java|C#|2
+What does CPU stand for?|Central Process Unit|Central Processing Unit|Computer Personal Unit|Central Processor Utility|2
+Which of these is NOT a programming paradigm?|Object-Oriented|Procedural|Functional|Alphabetical|4
+Which C++ header is required for file handling?|<iostream>|<fstream>|<string>|<vector>|2
+What is the standard file extension for a C++ source file?|.py|.java|.cpp|.js|3
+Which loop is guaranteed to execute at least once?|for|while|do-while|foreach|3
+Which operator accesses a class member through a pointer in C++?|.|::|->|&|3
+Which container stores a fixed-size sequence of elements in C++?|vector|array|list|map|2
+What is the default access specifier in a C++ class?|public|protected|private|none|3
