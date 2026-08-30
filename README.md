@@ -1,8 +1,10 @@
 # Quiz Game (C++, File Handling)
 
-A console-based Quiz Game built in C++ for the Software Development course.
-Questions are stored in and loaded from a plain text file (no database),
-following the 10-week project schedule. **This build covers Weeks 1–4.**
+An interactive console quiz game where users answer multiple-choice
+questions and see their score. Built in C++ for the Software Development
+course. Questions are stored in and loaded from a plain text file
+(no database), following the 10-week project schedule.
+**This build covers Weeks 1–5.**
 
 ## Progress So Far
 
@@ -12,10 +14,27 @@ following the 10-week project schedule. **This build covers Weeks 1–4.**
 | 2    | Software Design & UI                | Done — see `docs Folder/Interface_Design.md`, `Software_Design.md` |
 | 3    | Main Menu Module                    | Done — `MainMenu.h` / `MainMenu.cpp` (working menu, input validation) |
 | 4    | Question Management Module          | Done — `QuestionBank.h` / `QuestionBank.cpp` (create/load/validate/display via file handling) |
+| 5    | Quiz Gameplay Module                | Done — `QuizScreen.h` / `QuizScreen.cpp` (answer selection, correctness checking, automatic flow control) |
 
-Weeks 5–10 (gameplay, scoring, results, full file persistence, testing,
-and final delivery) are not yet implemented; the "Start Quiz" option
-currently loads and previews the question bank as proof that Week 4 works.
+Weeks 6–10 (formal scoring system, results screen and persistence, full
+file-based persistence review, testing/polish, and final delivery) are
+not yet implemented.
+
+## What Works Right Now
+
+Picking **"1. Start Quiz"** from the main menu will:
+1. Load and validate all questions from `questions.txt`.
+2. Show each question one at a time with options A–D.
+3. Accept your answer (re-prompting on anything other than A/B/C/D).
+4. Tell you immediately whether you were right, and show the correct
+   answer if you weren't.
+5. Automatically move on to the next question — no extra keypress needed.
+6. After the last question, print a simple correct/incorrect tally
+   (e.g. `7 / 10`) before returning to the main menu.
+
+The tally at the end is a temporary stand-in — a proper scoring system
+(live score display, performance tracking) is scoped for Week 6, and a
+dedicated, persisted results screen for Week 7.
 
 ## Folder Structure
 
@@ -63,6 +82,38 @@ Then run it (also from the project root):
 ```bash
 ./quizgame        # Linux/macOS
 quizgame.exe      # Windows
+```
+
+## Playing a Round
+
+```
+1. Start Quiz
+2. Exit
+Enter Choice: 1
+
+Loading question bank...
+10 question(s) loaded successfully.
+
+-----------------------------------
+
+Q1. What is the capital of France?
+   A. Berlin
+   B. Madrid
+   C. Paris
+   D. Rome
+Your answer (A/B/C/D): C
+
+Correct!
+
+-----------------------------------
+...
+-----------------------------------
+Quiz complete!
+Correct answers   : 8 / 10
+Incorrect answers : 2 / 10
+(A full scoring system and dedicated results screen are added in Week 6-7.)
+
+Press Enter to return to the main menu...
 ```
 
 ## Question Bank File Format
