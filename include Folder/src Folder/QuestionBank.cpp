@@ -29,11 +29,16 @@ vector<string> QuestionBank::splitLine(const string &line, char delimiter) const
     return tokens;
 }
 
-bool QuestionBank::validateQuestion(const Question &q, int lineNumber) const
+void QuestionBank::addWarning(int lineNumber, const string &reason)
+{
+    warnings.push_back("Line " + to_string(lineNumber) + ": " + reason);
+}
+
+bool QuestionBank::validateQuestion(const Question &q, int lineNumber)
 {
     if (q.questionText.empty())
     {
-        cout << "Warning: Skipping line " << lineNumber << " - question text is empty.\n";
+        addWarning(lineNumber, "question text is empty.");
         return false;
     }
 
@@ -41,16 +46,14 @@ bool QuestionBank::validateQuestion(const Question &q, int lineNumber) const
     {
         if (q.options[i].empty())
         {
-            cout << "Warning: Skipping line " << lineNumber
-                 << " - option " << static_cast<char>('A' + i) << " is empty.\n";
+            addWarning(lineNumber, string("option ") + static_cast<char>('A' + i) + " is empty.");
             return false;
         }
     }
 
     if (q.correctOption < 1 || q.correctOption > 4)
     {
-        cout << "Warning: Skipping line " << lineNumber
-             << " - correct option must be between 1 and 4.\n";
+        addWarning(lineNumber, "correct option must be between 1 and 4.");
         return false;
     }
 
@@ -61,9 +64,13 @@ bool QuestionBank::loadQuestions()
 {
     ifstream file(filePath.c_str());
 
+    warnings.clear();
+
     if (!file.is_open())
     {
-        cout << "Error: Could not open question file: " << filePath << "\n";
+        // Fatal (no file at all): the caller (QuizScreen) shows this to the
+        // user in a message box and returns to the main menu.
+        addWarning(0, "could not open question file: " + filePath);
         return false;
     }
 
@@ -83,8 +90,7 @@ bool QuestionBank::loadQuestions()
 
         if (tokens.size() != 6)
         {
-            cout << "Warning: Skipping line " << lineNumber
-                 << " - expected 6 fields, found " << tokens.size() << ".\n";
+            addWarning(lineNumber, "expected 6 fields, found " + to_string(tokens.size()) + ".");
             continue;
         }
 
@@ -101,8 +107,7 @@ bool QuestionBank::loadQuestions()
         }
         catch (...)
         {
-            cout << "Warning: Skipping line " << lineNumber
-                 << " - correct option is not a valid number.\n";
+            addWarning(lineNumber, "correct option is not a valid number.");
             continue;
         }
 
@@ -114,11 +119,10 @@ bool QuestionBank::loadQuestions()
 
     if (questions.empty())
     {
-        cout << "Warning: No valid questions were loaded from file.\n";
+        addWarning(0, "no valid questions were loaded from the file.");
         return false;
     }
 
-    cout << questions.size() << " question(s) loaded successfully.\n";
     return true;
 }
 
@@ -130,6 +134,11 @@ int QuestionBank::getQuestionCount() const
 const Question &QuestionBank::getQuestion(int index) const
 {
     return questions.at(index);
+}
+
+const vector<string> &QuestionBank::getWarnings() const
+{
+    return warnings;
 }
 
 void QuestionBank::displayQuestion(int index) const
