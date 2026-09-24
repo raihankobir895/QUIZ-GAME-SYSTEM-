@@ -1,49 +1,67 @@
-#include <iostream>
-#include <limits>
 #include "../MainMenu.h"
-#include "../QuizScreen.h"
-#include "../Utils.h"
 
-using namespace std;
-
-void MainMenu::displayMenu()
+MainMenu::MainMenu()
+    : titleLabel(nullptr),
+      subtitleLabel(nullptr),
+      startButton(nullptr),
+      exitButton(nullptr)
 {
-    int choice = 0;
+}
 
-    do
+MainMenu::~MainMenu()
+{
+    destroy();
+}
+
+void MainMenu::create(HWND parent)
+{
+    // SS_NOPREFIX: never treat '&' in label text as a shortcut marker.
+    titleLabel = CreateControl(parent, "STATIC", "QUIZ GAME",
+                               SS_CENTER | SS_CENTERIMAGE | SS_NOPREFIX,
+                               40, 110, 720, 80);
+    ApplyTitleFont(titleLabel);
+
+    subtitleLabel = CreateControl(parent, "STATIC",
+                                  "Test your knowledge with a multiple-choice quiz.",
+                                  SS_CENTER | SS_CENTERIMAGE | SS_NOPREFIX,
+                                  40, 200, 720, 40);
+    ApplyDefaultFont(subtitleLabel);
+
+    startButton = CreateControl(parent, "BUTTON", "Start Quiz",
+                                BS_DEFPUSHBUTTON,
+                                280, 300, 240, 56, ControlId::MenuStart);
+    ApplyHeadingFont(startButton);
+
+    exitButton = CreateControl(parent, "BUTTON", "Exit",
+                               BS_PUSHBUTTON,
+                               280, 375, 240, 56, ControlId::MenuExit);
+    ApplyHeadingFont(exitButton);
+}
+
+void MainMenu::destroy()
+{
+    HWND *controls[] = {&titleLabel, &subtitleLabel, &startButton, &exitButton};
+
+    for (HWND *control : controls)
     {
-        Utils::clearScreen();
-
-        cout << "=====================\n";
-        cout << "      QUIZ GAME\n";
-        cout << "=====================\n";
-        cout << "1. Start Quiz\n";
-        cout << "2. Exit\n";
-        cout << "Enter Choice: ";
-        
-        while (!(cin >> choice))
+        if (*control)
         {
-            cout << "Invalid input. Please enter a number: ";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            DestroyWindow(*control);
+            *control = nullptr;
         }
+    }
+}
 
-        switch (choice)
-        {
-            case 1:
-            {
-                QuizScreen quiz;
-                quiz.startQuiz();
-                break;
-            }
+void MainMenu::handleCommand(int controlId)
+{
+    switch (controlId)
+    {
+    case ControlId::MenuStart:
+        ShowQuizScreen();
+        break;
 
-            case 2:
-                cout << "\nThank You For Playing!\n";
-                break;
-
-            default:
-                cout << "\nInvalid Choice! Please select 1 or 2.\n";
-        }
-
-    } while (choice != 2);
+    case ControlId::MenuExit:
+        ExitApplication();
+        break;
+    }
 }
