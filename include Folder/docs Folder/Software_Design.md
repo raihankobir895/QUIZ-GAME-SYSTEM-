@@ -95,3 +95,81 @@ append-friendly text format.
   `.h` declaring its public interface and a `.cpp` implementing it.
 - **Defensive file handling** — all file reads check `is_open()` and
   validate parsed data before use.
+
+---
+
+## 7. Addendum (Weeks 6–10) — Final Architecture
+
+Sections 1–6 above describe the design as planned in Week 2, for a
+console interface. During Weeks 3–6 the team moved to a native Win32 GUI
+instead of a text console, since it gives a much better experience for
+the same underlying logic. The module responsibilities and data design
+above are unchanged; only the presentation layer and the module list
+below are updated to match what was actually built and shipped.
+
+**Updated structure diagram:**
+
+```
+                         +--------------------+
+                         | GuiApp.cpp/WinMain |  (window + event loop)
+                         +--------------------+
+                                    |
+                                    v
+                          +-------------------+
+                          |     MainMenu      |
+                          +-------------------+
+                             |             |
+                (Start Quiz) |             | (Exit)
+                             v             v
+                     +--------------+   program ends
+                     | QuizScreen   |
+                     +--------------+
+                        |        |
+                        v        v
+             +----------------+   +----------------+
+             | QuestionBank   |   | ResultScreen    |
+             +----------------+   +--------+---------+
+                        |                    |
+                        v                    v
+           questions.txt (read)     +----------------+
+                                     |  ResultStore    |
+                                     +--------+---------+
+                                              |
+                                     results.txt (read + append)
+```
+
+**Updated module list:**
+
+| Module        | Files                                    | Responsibility                                                                 |
+|---------------|-------------------------------------------|---------------------------------------------------------------------------------|
+| GuiApp        | `GuiApp.h` / `GuiApp.cpp`                   | Win32 window, message loop, screen switching, fonts, shared control helpers.   |
+| MainMenu      | `MainMenu.h` / `MainMenu.cpp`               | Title screen with "Start Quiz" / "Exit" buttons.                               |
+| QuizScreen    | `QuizScreen.h` / `QuizScreen.cpp`           | One question at a time, four option buttons, live score, error handling.      |
+| QuestionBank  | `QuestionBank.h` / `QuestionBank.cpp`       | Loads/validates questions from file; now also collects per-line warnings.      |
+| Score         | `Score.h` / `Score.cpp`                     | Points, correct/incorrect counts, accuracy for the *current* session.         |
+| ResultScreen  | `ResultScreen.h` / `ResultScreen.cpp`       | Shows the final summary; triggers saving the attempt via `ResultStore`.        |
+| ResultStore   | `ResultStore.h` / `ResultStore.cpp` (Week 7/8) | Appends each attempt to `results.txt` and reads history back (best score).  |
+| Utils         | `Utils.h` / `Utils.cpp`                     | Retained from the console prototype; unused by the GUI, kept for reference.   |
+
+`main.cpp` is intentionally empty in the GUI build — `WinMain()` in
+`GuiApp.cpp` is the real entry point.
+
+**Result file** (`docs Folder/data Folder/results.txt`), same
+pipe-delimited style as the question file, one attempt per line, opened
+in **append** mode so history is never overwritten:
+
+```
+Timestamp|TotalQuestions|Correct|Incorrect|Points|Accuracy
+```
+
+`ResultStore` both writes new attempts and reads the file back to report
+the player's best score and attempt count on the Result screen —
+demonstrating full read *and* write file-handling integration (Week 8),
+not just one-way loading.
+
+**Week 9 additions:** `QuestionBank` now records validation warnings
+(instead of printing to a console the GUI doesn't have) and `QuizScreen`
+surfaces them in a message box; `ResultScreen` reports (without crashing)
+if `results.txt` could not be written; an automated test suite
+(`tests/test_core.cpp`) exercises `QuestionBank`, `Score` and
+`ResultStore` directly — see `Testing_Report.md`.
