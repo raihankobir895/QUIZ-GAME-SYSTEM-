@@ -1,0 +1,4 @@
+# Quiz Game - Results History
+# Timestamp|TotalQuestions|Correct|Incorrect|Points|Accuracy
+2026-09-24 15:45:10|10|6|4|60|60
+2026-09-24 16:12:32|10|5|5|50|50
