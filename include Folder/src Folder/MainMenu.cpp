@@ -20,8 +20,7 @@ void MainMenu::displayMenu()
         cout << "1. Start Quiz\n";
         cout << "2. Exit\n";
         cout << "Enter Choice: ";
-
-        // Guard against non-numeric input so the menu never gets stuck in a loop.
+        
         while (!(cin >> choice))
         {
             cout << "Invalid input. Please enter a number: ";

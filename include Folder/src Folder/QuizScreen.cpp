@@ -7,13 +7,8 @@
 
 using namespace std;
 
-// Location of the question data file, relative to the project root
-// ("Quiz game system"), which is where the compiled program should be run from.
 static const string QUESTIONS_FILE = "include Folder/docs Folder/data Folder/questions.txt";
 
-// Reads one line of input and keeps re-prompting until it is a single
-// A/B/C/D character (case-insensitive). This is the "answer selection
-// feature" required for Week 5.
 char QuizScreen::readAnswer() const
 {
     string input;
@@ -46,9 +41,6 @@ void QuizScreen::startQuiz()
         cout << "Please check that " << QUESTIONS_FILE << " exists and is correctly formatted.\n";
         return;
     }
-
-    // Flush the leftover newline left in the input buffer by the main
-    // menu's "cin >> choice", so it isn't mistaken for an answer below.
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     int totalQuestions = bank.getQuestionCount();
@@ -79,8 +71,6 @@ void QuizScreen::startQuiz()
                  << ". " << q.options[q.correctOption - 1] << "\n";
             incorrectCount++;
         }
-        // Loop automatically continues to the next question - no extra
-        // input needed from the user to advance.
     }
 
     cout << "\n-----------------------------------\n";

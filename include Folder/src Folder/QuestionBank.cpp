@@ -7,8 +7,6 @@ using namespace std;
 
 QuestionBank::QuestionBank(const string &filePath) : filePath(filePath) {}
 
-// Removes leading/trailing whitespace and stray carriage returns (\r)
-// so files created on Windows and Linux both parse correctly.
 string QuestionBank::trim(const string &str) const
 {
     size_t start = str.find_first_not_of(" \t\r\n");
@@ -31,8 +29,6 @@ vector<string> QuestionBank::splitLine(const string &line, char delimiter) const
     return tokens;
 }
 
-// Ensures a question read from file is complete and usable before it is
-// added to the in-memory question bank.
 bool QuestionBank::validateQuestion(const Question &q, int lineNumber) const
 {
     if (q.questionText.empty())
@@ -61,9 +57,6 @@ bool QuestionBank::validateQuestion(const Question &q, int lineNumber) const
     return true;
 }
 
-// File format (pipe-delimited), one question per line:
-// Question|OptionA|OptionB|OptionC|OptionD|CorrectOption(1-4)
-// Lines that are empty or start with '#' are treated as comments.
 bool QuestionBank::loadQuestions()
 {
     ifstream file(filePath.c_str());
