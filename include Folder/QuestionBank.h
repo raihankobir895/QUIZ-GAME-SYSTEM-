@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-// Represents a single quiz question with four options and the correct answer.
-// correctOption is 1-based: 1 = A, 2 = B, 3 = C, 4 = D
 struct Question
 {
     std::string questionText;
@@ -13,15 +11,11 @@ struct Question
     int correctOption;
 };
 
-// Handles creating, loading, validating and displaying the question bank.
-// Questions are persisted in a plain text file (pipe-delimited), satisfying
-// the "no database" file-handling requirement of the project.
 class QuestionBank
 {
 public:
     explicit QuestionBank(const std::string &filePath);
 
-    // Reads questions from filePath into memory, skipping/reporting invalid rows.
     bool loadQuestions();
 
     int getQuestionCount() const;

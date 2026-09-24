@@ -4,7 +4,7 @@ An interactive console quiz game where users answer multiple-choice
 questions and see their score. Built in C++ for the Software Development
 course. Questions are stored in and loaded from a plain text file
 (no database), following the 10-week project schedule.
-**This build covers Weeks 1–5.**
+**This build covers Weeks 1–6.**
 
 ## Progress So Far
 
@@ -15,10 +15,11 @@ course. Questions are stored in and loaded from a plain text file
 | 3    | Main Menu Module                    | Done — `MainMenu.h` / `MainMenu.cpp` (working menu, input validation) |
 | 4    | Question Management Module          | Done — `QuestionBank.h` / `QuestionBank.cpp` (create/load/validate/display via file handling) |
 | 5    | Quiz Gameplay Module                | Done — `QuizScreen.h` / `QuizScreen.cpp` (answer selection, correctness checking, automatic flow control) |
+| 6    | Scoring System Development          | Done — `Score.h` / `Score.cpp` (points, live score display, correct/incorrect tracking, accuracy) |
 
-Weeks 6–10 (formal scoring system, results screen and persistence, full
-file-based persistence review, testing/polish, and final delivery) are
-not yet implemented.
+Weeks 7–10 (dedicated results screen and persistence, full file-based
+persistence review, testing/polish, and final delivery) are not yet
+implemented.
 
 ## What Works Right Now
 
@@ -28,25 +29,28 @@ Picking **"1. Start Quiz"** from the main menu will:
 3. Accept your answer (re-prompting on anything other than A/B/C/D).
 4. Tell you immediately whether you were right, and show the correct
    answer if you weren't.
-5. Automatically move on to the next question — no extra keypress needed.
-6. After the last question, print a simple correct/incorrect tally
-   (e.g. `7 / 10`) before returning to the main menu.
+5. Award 10 points per correct answer and display the running score
+   (points, correct count, incorrect count) after every question.
+6. Automatically move on to the next question — no extra keypress needed.
+7. After the last question, show a full performance summary: total
+   questions, correct/incorrect counts, final score, and accuracy
+   percentage, before returning to the main menu.
 
-The tally at the end is a temporary stand-in — a proper scoring system
-(live score display, performance tracking) is scoped for Week 6, and a
-dedicated, persisted results screen for Week 7.
+A dedicated, persisted results screen (saving each attempt to a file)
+is scoped for Week 7.
 
 ## Folder Structure
 
 ```
 Quiz game system/
 ├── include Folder/
-│   ├── MainMenu.h / QuizScreen.h / ResultScreen.h / Utils.h / QuestionBank.h
+│   ├── MainMenu.h / QuizScreen.h / ResultScreen.h / Utils.h / QuestionBank.h / Score.h
 │   ├── src Folder/
 │   │   ├── main.cpp
 │   │   ├── MainMenu.cpp
 │   │   ├── QuizScreen.cpp
 │   │   ├── QuestionBank.cpp
+│   │   ├── Score.cpp
 │   │   ├── ResultScreen.cpp
 │   │   └── Utils.cpp
 │   └── docs Folder/
@@ -72,6 +76,7 @@ g++ -std=c++17 -Wall \
   "include Folder/src Folder/MainMenu.cpp" \
   "include Folder/src Folder/QuizScreen.cpp" \
   "include Folder/src Folder/QuestionBank.cpp" \
+  "include Folder/src Folder/Score.cpp" \
   "include Folder/src Folder/ResultScreen.cpp" \
   "include Folder/src Folder/Utils.cpp" \
   -o quizgame
