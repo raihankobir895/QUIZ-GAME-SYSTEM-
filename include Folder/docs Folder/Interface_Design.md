@@ -70,3 +70,28 @@ Main Menu -> Exit -> program ends
   keep the interface uncluttered.
 - Option letters (A–D) are used consistently across the question display
   and result summary for clarity.
+
+---
+
+## 6. Addendum (Weeks 6–10) — Final GUI Interface
+
+The screens above were the Week 2 console mockups. The shipped game is a
+native Win32 GUI instead (same navigation flow, same information on each
+screen), built with plain buttons and labels — no external UI toolkit:
+
+- **Main Menu** — window titled "Quiz Game", with the title label,
+  a subtitle, and two buttons: **Start Quiz** and **Exit**.
+- **Quiz Screen** — a progress label ("Question N of M"), the question
+  text, four answer buttons arranged in a 2x2 grid, a feedback line
+  (correct/incorrect, with the right answer shown on a miss), a live
+  score line, and a **Next Question ->** button that only appears after
+  answering (so each question can only be answered once).
+- **Result Screen** — title "QUIZ COMPLETE", the full summary (total /
+  correct / incorrect / points / accuracy), a history line showing the
+  attempt number and best score saved across all past runs (Week 7/8),
+  and **Play Again** / **Exit** buttons.
+- **Error dialogs** — a message box if `questions.txt` can't be found or
+  parsed at all, and a separate warning message box listing any
+  individual skipped lines (Week 9), so bad data is never silently lost.
+
+The navigation flow itself is unchanged from section 4 above.
