@@ -13,3 +13,12 @@ Which loop is guaranteed to execute at least once?|for|while|do-while|foreach|3
 Which operator accesses a class member through a pointer in C++?|.|::|->|&|3
 Which container stores a fixed-size sequence of elements in C++?|vector|array|list|map|2
 What is the default access specifier in a C++ class?|public|protected|private|none|3
+Which keyword is used to define a constant in C++?|var|const|let|static|2
+What is the size of an 'int' on most modern 32-bit/64-bit systems?|2 bytes|4 bytes|8 bytes|1 byte|2
+Which symbol is used for the scope resolution operator in C++?|#|::|->|&|2
+Which of these is a valid way to declare a pointer in C++?|int ptr;|int &ptr;|int *ptr;|int %ptr;|3
+What does 'OOP' stand for?|Object Oriented Programming|Open Operation Protocol|Object Order Process|Optimized Operating Program|1
+Which function is automatically called when an object is destroyed?|Constructor|Destructor|Finalizer|Cleanup|2
+Which STL container stores unique keys mapped to values?|vector|map|list|queue|2
+What is the output type of the sizeof() operator in C++?|int|size_t|double|char|2
+Which access specifier makes members accessible only within the same class?|public|protected|private|global|3
